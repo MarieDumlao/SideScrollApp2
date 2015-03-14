@@ -1,0 +1,166 @@
+#|
+$Source $Yail
+|#
+
+(define-form appinventor.ai_jessaibo07.SideScrollApp.Screen1 Screen1)
+(require <com.google.youngandroid.runtime>)
+
+;;; Screen1
+
+(do-after-form-creation (set-and-coerce-property! 'Screen1 'AppName "SideScrollApp" 'text)
+ (set-and-coerce-property! 'Screen1 'ScreenOrientation "portrait" 'text)
+)
+
+;;; HorizontalArrangement1
+
+(add-component Screen1 HorizontalArrangement HorizontalArrangement1 
+(set-and-coerce-property! 'HorizontalArrangement1 'Width -2 'number)
+
+(set-and-coerce-property! 'HorizontalArrangement1 'Height 400 'number)
+
+)
+
+;;; VerticalArrangement1
+
+(add-component HorizontalArrangement1 VerticalArrangement VerticalArrangement1 
+(set-and-coerce-property! 'VerticalArrangement1 'Width 50 'number)
+
+(set-and-coerce-property! 'VerticalArrangement1 'Height 400 'number)
+
+)
+
+;;; left
+
+(add-component VerticalArrangement1 Button left 
+(set-and-coerce-property! 'left 'Image "left.jpg" 'text)
+
+(set-and-coerce-property! 'left 'Width 40 'number)
+
+(set-and-coerce-property! 'left 'Height 40 'number)
+
+)
+
+(define-event left Click()(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* (get-property 'jessa 'X)  (call-yail-primitive - (*list-for-runtime* (get-property 'jessa 'Y) 8) '(number number) "-")) '(number number)))
+;;; right
+
+(add-component VerticalArrangement1 Button right 
+(set-and-coerce-property! 'right 'Image "right.jpg" 'text)
+
+(set-and-coerce-property! 'right 'Width 40 'number)
+
+(set-and-coerce-property! 'right 'Height 40 'number)
+
+)
+
+(define-event right Click()(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* (call-yail-primitive - (*list-for-runtime* (get-property 'jessa 'X) -8) '(number number) "-")  (get-property 'jessa 'Y)) '(number number)))
+;;; TableArrangement1
+
+(add-component VerticalArrangement1 TableArrangement TableArrangement1 
+(set-and-coerce-property! 'TableArrangement1 'Height 225 'number)
+
+)
+
+;;; jump
+
+(add-component VerticalArrangement1 Button jump 
+(set-and-coerce-property! 'jump 'Image "jump.png" 'text)
+
+(set-and-coerce-property! 'jump 'Width 40 'number)
+
+(set-and-coerce-property! 'jump 'Height 40 'number)
+
+)
+
+(define-event jump Click()(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* (get-property 'jessa 'X)  (call-yail-primitive - (*list-for-runtime* (get-property 'jessa 'Y) -80) '(number number) "-")) '(number number)))
+;;; Canvas1
+
+(add-component HorizontalArrangement1 Canvas Canvas1 
+(set-and-coerce-property! 'Canvas1 'Width -2 'number)
+
+(set-and-coerce-property! 'Canvas1 'Height 400 'number)
+
+)
+
+;;; jessa
+
+(add-component Canvas1 ImageSprite jessa 
+(set-and-coerce-property! 'jessa 'Picture "jj.png" 'text)
+
+(set-and-coerce-property! 'jessa 'X -26 'number)
+
+(set-and-coerce-property! 'jessa 'Y -44 'number)
+
+(set-and-coerce-property! 'jessa 'Width 250 'number)
+
+(set-and-coerce-property! 'jessa 'Height 150 'number)
+
+)
+
+;;; floor
+
+(add-component Canvas1 ImageSprite floor 
+(set-and-coerce-property! 'floor 'Picture "bg.jpg" 'text)
+
+(set-and-coerce-property! 'floor 'X 11 'number)
+
+(set-and-coerce-property! 'floor 'Y 142 'number)
+
+(set-and-coerce-property! 'floor 'Width 10 'number)
+
+(set-and-coerce-property! 'floor 'Height 250 'number)
+
+)
+
+(define-event floor CollidedWith($other)(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* (call-yail-primitive - (*list-for-runtime* (get-property 'jessa 'X) -3) '(number number) "-")  (get-property 'jessa 'Y)) '(number number)))
+;;; finished
+
+(add-component Canvas1 Ball finished 
+(set-and-coerce-property! 'finished 'X 25 'number)
+
+(set-and-coerce-property! 'finished 'Y 372 'number)
+
+)
+
+(define-event finished CollidedWith($other)(set-this-form)
+    (call-component-method 'Notifier1 'ShowMessageDialog (*list-for-runtime* "Congratulations You Won!"  "Go Girl"  "Yeah!") '(text text text)))
+;;; gate
+
+(add-component Canvas1 ImageSprite gate 
+(set-and-coerce-property! 'gate 'Picture "fence.png" 'text)
+
+(set-and-coerce-property! 'gate 'X -7 'number)
+
+(set-and-coerce-property! 'gate 'Y 150 'number)
+
+(set-and-coerce-property! 'gate 'Width 150 'number)
+
+(set-and-coerce-property! 'gate 'Height 50 'number)
+
+)
+
+(define-event gate CollidedWith($other)(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* -26  -44) '(number number)))
+;;; Clock1
+
+(add-component Screen1 Clock Clock1 
+(set-and-coerce-property! 'Clock1 'TimerInterval 50 'number)
+
+)
+
+(define-event Clock1 Timer()(set-this-form)
+    (call-component-method 'jessa 'MoveTo (*list-for-runtime* (call-yail-primitive - (*list-for-runtime* (get-property 'jessa 'X) 3) '(number number) "-")  (get-property 'jessa 'Y)) '(number number)))
+;;; OrientationSensor1
+
+(add-component Screen1 OrientationSensor OrientationSensor1 
+)
+
+;;; Notifier1
+
+(add-component Screen1 Notifier Notifier1 
+)
+
+(init-runtime)
